@@ -1,5 +1,6 @@
 from random import randint
 from utils import make_lines
+from score_db import session
 
 
 class GuessNum:
