@@ -1,21 +1,22 @@
 from random import randint
+from utils import make_lines
 
 
 class GuessNum:
     def __init__(self, user_try=5,
                  start_num=0, end_num=50,
-                 user_name = 'User') -> None:
+                 user_name='User') -> None:
         self.user_try = user_try
         self.start_num = start_num
         self.end_num = end_num
         self.user_name = user_name
 
     def set_random_num(self) -> int:
+        self.set_user_name()
+        make_lines(40)
         print(
-            '*************************************************\n'
-            'Привет, это игра угадай число))\n'
-            'введи пожалуйста диапазон для загадывания числа!\n'
-            '*************************************************'
+            f'Привет, {self.user_name}, это игра угадай число))\n'
+            'введи пожалуйста диапазон для загадывания числа: '
         )
         self.start_num = int(
             input('Введите начальное число: ')
@@ -25,16 +26,23 @@ class GuessNum:
                 'Введи число конца диапазона: \n'
             )
         )
+        make_lines(40)
         return randint(self.start_num, self.end_num)
 
     def set_try(self) -> int:
+        make_lines(40)
         self.set_try = int(
             input(
-                '_______________________\n'
                 'Введите число попыток: '
             )
         )
+        make_lines(40)
         return self.set_try
+
+    def set_user_name(self) -> None:
+        new_name = input('Как тебя зовут? ')
+        self.user_name = new_name
+        return self.user_name
 
     def main(self) -> None:
         count_of_try = 0
