@@ -35,11 +35,19 @@ class GuessNum:
         return randint(self.start_num, self.end_num)
 
     def set_user_name(self) -> str:
-        '''Запаршивае имя пользователя'''
-        new_name = input('Как тебя зовут? ')
-        if new_name == '':
-            raise ValueError('Имя не может быть пустым.')
-        return new_name
+        """Запрашивает имя пользователя"""
+        while True:
+            try:
+                new_name = input('Как тебя зовут? ')
+                if new_name.strip():
+                    return new_name
+                else:
+                    raise ValueError('Имя не может быть пустым.')
+            except ValueError as e:
+                print(e)
+            except KeyboardInterrupt:
+                print("\nВыход из программы.")
+                break
 
     def set_try(self) -> int:
         """
