@@ -10,7 +10,7 @@
 
 1. Клонируйте репозиторий:
 
-git clone https://github.com/your-username/guess-number-game.git
+git clone https://github.com/Stanislav-Kankin/sandbox_guess_num_oop
 
 2. Перейдите в директорию проекта:
 
