@@ -1,6 +1,8 @@
 from random import randint
 from utils import make_lines
 
+from score_db import Score, session
+
 
 class GuessNum:
     """
@@ -11,6 +13,7 @@ class GuessNum:
         self.user_try = user_try
         self.start_num = start_num
         self.end_num = end_num
+        self.name = None
 
     def set_random_num(self) -> int:
         """
@@ -18,9 +21,9 @@ class GuessNum:
         диапазона для загадывания числа
         """
         make_lines(40)
-        name = self.set_user_name()
+        self.set_user_name()
         print(
-            f'Привет, {name}, это игра угадай число))\n'
+            f'Привет, {self.name}, это игра угадай число))\n'
             'введи пожалуйста диапазон для загадывания числа: '
         )
         self.start_num = int(
@@ -40,7 +43,8 @@ class GuessNum:
             try:
                 new_name = input('Как тебя зовут? ')
                 if new_name.strip():
-                    return new_name
+                    self.name = new_name
+                    return self.name
                 else:
                     raise ValueError('Имя не может быть пустым.')
             except ValueError as e:
@@ -71,7 +75,7 @@ class GuessNum:
         try:
             rand_num = self.set_random_num()
             option_user_try = self.set_try()
-        except ValueError:  # Проверяем что пользователь ввёл именно число(целое)
+        except ValueError:  # Проверяем что ввели именно число(целое)
             print('Ошибка, нужно ввести число!')
             return
         while True:
@@ -109,3 +113,10 @@ class GuessNum:
                     '\n'
                     'Загаданное число больше...'
                     '\n')
+                new_score = Score(
+                    user_name=self.name, number_of_try=count_of_try
+                    )
+                session.add(new_score)
+                session.commit()
+
+        session.close()
