@@ -1,36 +1,44 @@
 from random import randint
-from utils import make_lines
-from score_db import session
+from utils import make_lines, set_user_name
 
 
 class GuessNum:
+    """
+    Инициалзируем класс для игры
+    """
     def __init__(self, user_try=5,
-                 start_num=0, end_num=50,
-                 user_name='User') -> None:
+                 start_num=0, end_num=50) -> None:
         self.user_try = user_try
         self.start_num = start_num
         self.end_num = end_num
-        self.user_name = user_name
 
     def set_random_num(self) -> int:
-        self.set_user_name()
+        """
+        Метода для установки с помощью пользователя
+        диапазона для загадывания числа
+        """
         make_lines(40)
+        name = set_user_name()
         print(
-            f'Привет, {self.user_name}, это игра угадай число))\n'
+            f'Привет, {name}, это игра угадай число))\n'
             'введи пожалуйста диапазон для загадывания числа: '
         )
         self.start_num = int(
-            input('Введите начальное число: ')
+            input('Введите начальное число: ')  # Начало диапазона
         )
         self.end_num = int(
             input(
-                'Введи число конца диапазона: \n'
+                'Введи число конца диапазона: \n'  # Конец диапазона
             )
         )
         make_lines(40)
         return randint(self.start_num, self.end_num)
 
     def set_try(self) -> int:
+        """
+        Просим пользователя поставить  количество попыток
+        для отгадывания числа
+        """
         make_lines(40)
         self.set_try = int(
             input(
@@ -40,17 +48,15 @@ class GuessNum:
         make_lines(40)
         return self.set_try
 
-    def set_user_name(self) -> None:
-        new_name = input('Как тебя зовут? ')
-        self.user_name = new_name
-        return self.user_name
-
     def main(self) -> None:
-        count_of_try = 0
+        """
+        Основная логика игры
+        """
+        count_of_try = 0  # Считаем за сколько пользователь угадает число
         try:
             rand_num = self.set_random_num()
             option_user_try = self.set_try()
-        except ValueError:
+        except ValueError:  # Проверяем что пользователь ввёл именно число(целое)
             print('Ошибка, нужно ввести число!')
             return
         while True:
@@ -77,20 +83,14 @@ class GuessNum:
             elif user_int > rand_num:
                 option_user_try -= 1
                 count_of_try += 1
-                print()
-                print('Загаданное число меньше...')
-                print()
+                print(
+                    '\n'
+                    'Загаданное число меньше...'
+                    '\n')
             elif user_int < rand_num:
                 option_user_try -= 1
                 count_of_try += 1
-                print()
-                print('Загаданное число больше...')
-                print()
-
-
-if __name__ == '__main__':
-    player = GuessNum()
-    try:
-        player.main()
-    except KeyboardInterrupt:
-        print('Программа завершена пользователем.')
+                print(
+                    '\n'
+                    'Загаданное число больше...'
+                    '\n')
